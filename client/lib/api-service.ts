@@ -1,4 +1,4 @@
-import type {ApiConfig, AnalysisType, ContractData} from './types'
+import type {AnalysisType, ApiConfig, ContractData} from './types'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8501'
 
@@ -23,7 +23,6 @@ export class ApiService {
             formData.append('custom_query', analysisType.customQuery)
         }
 
-        // Log the request details
         console.log("Sending analysis request:", {
             file: file.name,
             fileSize: file.size,

@@ -26,9 +26,9 @@ const tabConfig = [
     },
     {
         id: "recommendations",
-        label: "Recommendations",
+        label: "Negotiations",
         icon: Lightbulb,
-        description: "Strategic recommendations"
+        description: "Strategic negotiations"
     }
 ]
 
