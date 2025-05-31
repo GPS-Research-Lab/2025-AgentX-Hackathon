@@ -1,4 +1,4 @@
-import type {AnalysisType, ApiConfig, ContractData} from './types'
+import type {ApiConfig, AnalysisType, ContractData} from './types'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8501'
 
@@ -23,14 +23,6 @@ export class ApiService {
             formData.append('custom_query', analysisType.customQuery)
         }
 
-        console.log("Sending analysis request:", {
-            file: file.name,
-            fileSize: file.size,
-            analysisType: analysisType.type,
-            hasCustomQuery: !!analysisType.customQuery,
-            apiUrl: `${API_BASE_URL}/api/analyze`
-        });
-
         try {
             const response = await fetch(`${API_BASE_URL}/api/analyze`, {
                 method: 'POST',
@@ -38,8 +30,6 @@ export class ApiService {
             })
 
             const responseText = await response.text()
-            console.log("Response status:", response.status)
-            console.log("Response text:", responseText)
 
             if (!response.ok) {
                 // Try to parse error details
@@ -55,14 +45,12 @@ export class ApiService {
 
             // Parse successful response
             const data = JSON.parse(responseText)
-            console.log("Parsed response data:", data)
 
             // Return the simplified structure
             return {
-                analysis: data.analysis,
-                keyPoints: data.key_points,
-                recommendations: data.recommendations,
-                riskScore: data.risk_score
+                analysis: data.analysis || '',
+                keyPoints: data.key_points || '',
+                negotiations: data.negotiations || ''
             }
         } catch (error) {
             console.error("API call error:", error)
