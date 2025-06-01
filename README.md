@@ -5,46 +5,73 @@ A comprehensive legal document analysis platform combining a multi-agent AI back
 ## 🎯 Project Overview
 
 This system consists of two main components:
-- **Agent Backend**: Multi-agent system for analyzing legal documents using local AI models
+- **Agent Backend**: Multi-agent system for analyzing legal documents
 - **Client Frontend**: Next.js web application for contract upload, risk visualization, and negotiation tips
 
-## 🏗️ Architecture
+## 🏗️ Project Structure
 
 ```
 AgentX-VoiceActor/
-├── agent/          # Python backend with AI agents
-├── client/         # Next.js frontend
-└── README.md       # This file
+├── agent/
+│   ├── local_agent_team.py      # local Streamlit app
+│   ├── agent_team.py            # Main Streamlit app that uses open ai api, qdrant, agno
+│   ├── requirements.txt         # Python dependencies
+│   ├── …                       # Agents, knowledge‐base, Qdrant integration, tools, etc.
+├── client/
+│   ├── pages/                  # Next.js routes
+│   ├── components/             # React components & UI widgets
+│   ├── public/                 # Images, fonts, favicon, etc.
+│   ├── styles/                 # Tailwind CSS or custom CSS
+│   └── package.json            # Node.js dependencies
+└── README.md                   # Project overview (this file)
+
 ```
 
 ## ✨ Key Features
 
 ### Backend (Agent)
-- **Local AI Processing**: No data sent to external APIs
-- **Multi-Agent Team**: Specialized roles including Compliance Checker, Contract Analyst, Negotiation Strategist, and Team Coordinator
-- **Multiple Analysis Types**: Contract Review, Risk Assessment, Compliance Check, Custom Query
-- **Vector Database**: Powered by Qdrant for efficient document search
+
+- **Multi-Agent Team**:
+   - Legal Researcher: Searches external/legal references (DuckDuckGo, Qdrant)
+   - Contract Analyst: Reviews contracts for clauses/issues
+   - Legal Strategist: Develops negotiation strategies and mitigation advice
+   - Team Coordinator: Orchestrates the above agents and aggregates results
+- **Multiple Analysis Types**:
+   - Contract Review
+   - Legal Research
+   - Risk Assessment (based on PRAC³, NIST, OWASP, etc.)
+   - Custom Query
+- **Vector Database Storage**:
+   - Qdrant (via Agno’s Qdrant wrapper) for embedding-powered document search
+   - PDF documents are chunked, embedded (OpenAIEmbedder), and stored in Qdrant
+
 
 ### Frontend (Client)
-- **Drag-and-Drop Upload**: Easy PDF contract uploads
-- **Risk Scoring**: Overall and Voice-Use AI Risk scores
-- **Interactive Highlights**: Clickable clause explanations
-- **Negotiation Guidance**: AI-powered suggestions and talking points
+- **Drag-and-Drop Upload**:
+   - PDF contract upload UI
+- **Multi-Step Analysis Workflow**:
+   - Select analysis type (Contract Review, Legal Research, Risk Assessment, Custom Query)
+   - View dynamic tabs: Detailed Analysis, Key Points, Recommendations (or Risk Review + Scoring for Risk Assessment)
+- **Interactive Highlights & Risk Scoring**:
+   - Highlighted clauses in the PDF
+   - Risk scoring tables (for “Risk Assessment” flow)
+- **Negotiation Guidance**:
+   - Talking points and best-practice clause suggestions
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- **Python 3.8+**
-- **Node.js 16+**
-- **Docker** (for Qdrant)
+- **Python 3.8+** (or newer)
+- **Node.js 16+** (or newer)
+- **Docker** (for running Qdrant locally)
 - **Git**
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/TanusreeSharma/AgentX-VoiceActor.git
-cd AgentX-VoiceActor
+git clone https://github.com/GPS-Research-Lab/2025-AgentX-Hackathon.git
+cd 2025-AgentX-Hackathon
 ```
 
 ### 2. Backend Setup (Agent)
@@ -75,6 +102,9 @@ docker run -p 6333:6333 -p 6334:6334 \
 
 # Start the backend server
 streamlit run local_agent_team.py
+
+# You can also run agent_team.py that uses  external apis
+streamlit run agent_team.py
 ```
 
 The backend will be available at `http://localhost:8501`
@@ -89,7 +119,7 @@ cd agent
 pip install -r requirements.txt
 
 # Start the API server
-python3 run api_server.py
+python3 api_server.py
 ```
 
 **Note**: For external APIs, ensure you have configured your API keys in the environment or configuration files.
@@ -130,39 +160,19 @@ Create `.env.local` in the client directory:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8501
-OPENAI_API_KEY=your_openai_key_here
-CLAUDE_API_KEY=your_claude_key_here
 ```
 
 ## 📖 Usage
 
 1. **Start Both Services**: Ensure both backend (port 8501) and frontend (port 3000) are running
 2. **Upload Contract**: Use the frontend to drag-and-drop your PDF contract
-3. **Select Analysis Type**: Choose from Contract Review, Risk Assessment, or Compliance Check
+3. **Select Analysis Type**: Choose from Contract Review, Risk Assessment, Legal Research, or Custom Query
 4. **Review Results**:
     - View risk scores and highlighted clauses in the frontend
     - Access detailed agent analysis in the backend interface
 5. **Get Negotiation Tips**: Use AI-powered suggestions for contract improvements
 
 ## 🛠️ Development
-
-### Project Structure
-
-```
-AgentX-VoiceActor/
-├── agent/
-│   ├── local_agent_team.py    # Main Streamlit application
-│   ├── requirements.txt       # Python dependencies
-│   └── ...                   # Agent implementation files
-├── client/
-│   ├── pages/                # Next.js route handlers
-│   ├── app/                  # App Router components
-│   ├── components/           # Reusable UI components
-│   ├── public/               # Static assets
-│   ├── styles/               # Tailwind configuration
-│   └── package.json          # Node.js dependencies
-└── README.md
-```
 
 ### Contributing
 
