@@ -4,6 +4,8 @@ A comprehensive legal document analysis platform combining a multi-agent AI back
 
 ## 🎯 Project Overview
 
+
+
 This system consists of two main components:
 - **Agent Backend**: Multi-agent system for analyzing legal documents
 - **Client Frontend**: Next.js web application for contract upload, risk visualization, and negotiation tips
